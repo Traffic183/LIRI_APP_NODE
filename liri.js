@@ -1,19 +1,19 @@
 require("dotenv").config();
 
-var Twitter = require("twitter");
-var Spotify = require("node-spotify-api");
-var keys = require("./keys");
+const Twitter = require("twitter");
+const Spotify = require("node-spotify-api");
+const keys = require("./keys");
 
-var request = require("request");
+const request = require("request");
 
 const fs = require("fs");
 
-var spotify = new Spotify(keys.spotify);
+const spotify = new Spotify(keys.spotify);
 
-var getArtistName = function(artist) {
+let getArtistName = function(artist) {
   return artist.name;
  };
- var getSpotify = function(songName) {
+ let getSpotify = function(songName) {
   if (songName === undefined) {
     songName = "The Sign";
   }
@@ -29,11 +29,11 @@ var getArtistName = function(artist) {
         return;
       }
 
-      var songs = data.tracks.items;
+      let songs = data.tracks.items;
 
-      for (var i = 0; i < songs.length; i++) {
+      for (let i = 0; i < songs.length; i++) {
         console.log(i);
-        console.log("artist(s): " + songs[i].artists.map(getName));
+        console.log("artist(s): " + songs[i].artists.map(getArtistName));
         console.log("song name: " + songs[i].name);
         console.log("preview song: " + songs[i].preview_url);
         console.log("album: " + songs[i].album.name);
@@ -42,15 +42,15 @@ var getArtistName = function(artist) {
     }
   );
 };
-var myTweets = function() {
-  var client = new Twitter(keys.twitter);
+let myTweets = function() {
+ let client = new Twitter(keys.twitter);
 
-  var params = {
+  let params = {
     screen_name: "LevyTX"
   };
   client.get("statuses/user_timeline", params, function(error, tweets, response) {
     if (!error) {
-      for (var i = 0; i < tweets.length; i++) {
+      for (let i = 0; i < tweets.length; i++) {
         console.log(tweets[i].created_at);
         console.log("");
         console.log(tweets[i].text);
@@ -58,35 +58,35 @@ var myTweets = function() {
     }
   });
 };
-var movieThis = function(movieName) {
+let movieThis = function(movieName) {
   if (movieName === undefined) {
-    movieName = "Mr Nobody";
+    movieName = "Fanny and Alexander";
   }
 
-  var urlHit = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=full&tomatoes=true&apikey=454a6e93";
+  let urlHit = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=full&tomatoes=true&apikey=454a6e93";
 
   request(urlHit, function(error, response, body) {
     if (!error && response.statusCode === 200) {
-      var jsonData = JSON.parse(body);
+      let jsonData = JSON.parse(body);
 
-      console.log("Title: " + jsonData.Title);
-      console.log("Year: " + jsonData.Year);
-      console.log("Rated: " + jsonData.Rated);
-      console.log("IMDB Rating: " + jsonData.imdbRating);
-      console.log("Country: " + jsonData.Country);
-      console.log("Language: " + jsonData.Language);
-      console.log("Plot: " + jsonData.Plot);
-      console.log("Actors: " + jsonData.Actors);
-      console.log("Rotten Tomatoes Rating: " + jsonData.Ratings[1].Value);
+      console.log("\nTitle: " + jsonData.Title);
+      console.log("\nYear: " + jsonData.Year);
+      console.log("\nRated: " + jsonData.Rated);
+      console.log("\nIMDB Rating: " + jsonData.imdbRating);
+      console.log("\nCountry: " + jsonData.Country);
+      console.log("\nLanguage: " + jsonData.Language);
+      console.log("\nPlot: " + jsonData.Plot);
+      console.log("\nActors: " + jsonData.Actors);
+      console.log("\nRotten Tomatoes Rating: " + jsonData.Ratings[1].Value);
     }
   });
 };
 
-var doWhatItSays = function() {
+let doWhatItSays = function() {
   fs.readFile("random.txt", "utf8", function(error, data) {
     console.log(data);
 
-    var dataArr = data.split(",");
+    let dataArr = data.split(",");
 
     if (dataArr.length === 2) {
       pick(dataArr[0], dataArr[1]);
@@ -97,7 +97,7 @@ var doWhatItSays = function() {
   });
 };
 
-var pick = function(caseData, functionData) {
+let pick = function(caseData, functionData) {
   switch (caseData) {
   case "my-tweets":
     myTweets();
@@ -116,7 +116,7 @@ var pick = function(caseData, functionData) {
   }
 };
 
-var runThis = function(argOne, argTwo) {
+let runThis = function(argOne, argTwo) {
   pick(argOne, argTwo);
 };
 
