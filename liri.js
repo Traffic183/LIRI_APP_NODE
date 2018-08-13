@@ -3,11 +3,8 @@ require("dotenv").config();
 const Twitter = require("twitter");
 const Spotify = require("node-spotify-api");
 const keys = require("./keys");
-
 const request = require("request");
-
 const fs = require("fs");
-
 const spotify = new Spotify(keys.spotify);
 
 let getArtistName = (artist) => {
@@ -23,7 +20,7 @@ let getArtistName = (artist) => {
       type: "track",
       query: songName
     },
-    function(err, data) {
+    (err, data)=> {
       if (err) {
         console.log("Error occurred: " + err);
         return;
@@ -36,18 +33,18 @@ let getArtistName = (artist) => {
         console.log("song name: " + songs[i].name);
         console.log("preview song: " + songs[i].preview_url);
         console.log("album: " + songs[i].album.name);
-        console.log(" *   *   *   *   *");
+        console.log("*   *   *   *   *   *");
       }
     }
   );
 };
-let myTweets = function() {
+let myTweets = ()=> {
  let client = new Twitter(keys.twitter);
 
   let params = {
     screen_name: "LevyTX"
   };
-  client.get("statuses/user_timeline", params, function(error, tweets, response) {
+  client.get("statuses/user_timeline", params, (error, tweets, response) => {
     if (!error) {
       for (let i = 0; i < tweets.length; i++) {
         console.log(tweets[i].created_at);
@@ -57,14 +54,14 @@ let myTweets = function() {
     }
   });
 };
-let movieThis = function(movieName) {
+let movieThis = (movieName) => {
   if (movieName === undefined) {
     movieName = "Fanny and Alexander";
   }
 
   let urlHit = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=full&tomatoes=true&apikey=454a6e93";
 
-  request(urlHit, function(error, response, body) {
+  request(urlHit, (error, response, body) => {
     if (!error && response.statusCode === 200) {
       let jsonData = JSON.parse(body);
 
@@ -81,8 +78,8 @@ let movieThis = function(movieName) {
   });
 };
 
-let doWhatItSays = function() {
-  fs.readFile("random.txt", "utf8", function(error, data) {
+let doWhatItSays = () => {
+  fs.readFile("random.txt", "utf8", (error, data) => {
     console.log(data);
 
     let dataArr = data.split(",");
@@ -96,7 +93,7 @@ let doWhatItSays = function() {
   });
 };
 
-let pick = function(caseData, functionData) {
+let randomSelect = (caseData, functionData) => {
   switch (caseData) {
   case "my-tweets":
     myTweets();
@@ -115,8 +112,8 @@ let pick = function(caseData, functionData) {
   }
 };
 
-let runThis = function(argOne, argTwo) {
-  pick(argOne, argTwo);
+let runThis = (argOne, argTwo) => {
+  randomSelect(argOne, argTwo);
 };
 
 runThis(process.argv[2], process.argv[3]);
