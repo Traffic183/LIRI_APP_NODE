@@ -10,10 +10,10 @@ const fs = require("fs");
 
 const spotify = new Spotify(keys.spotify);
 
-let getArtistName = function(artist) {
+let getArtistName = (artist) => {
   return artist.name;
  };
- let getSpotify = function(songName) {
+ let getSpotify = (songName) => {
   if (songName === undefined) {
     songName = "The Sign";
   }
@@ -28,7 +28,6 @@ let getArtistName = function(artist) {
         console.log("Error occurred: " + err);
         return;
       }
-
       let songs = data.tracks.items;
 
       for (let i = 0; i < songs.length; i++) {
@@ -37,7 +36,7 @@ let getArtistName = function(artist) {
         console.log("song name: " + songs[i].name);
         console.log("preview song: " + songs[i].preview_url);
         console.log("album: " + songs[i].album.name);
-        console.log("-----------------------------------");
+        console.log(" *   *   *   *   *");
       }
     }
   );
