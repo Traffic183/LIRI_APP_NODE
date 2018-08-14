@@ -34,6 +34,9 @@ let getArtistName = (artist) => {
         console.log("Preview: " + songs[i].preview_url);
         console.log("Album: " + songs[i].album.name);
         console.log("*   *   *   *   *   *");
+        fs.appendFile('log.txt', "\n" + "\n" + 'SPOTIFY THIS SONG: ' + i + "\n" + "Artist: " + songs[i].artists.map(getArtistName) + "\n" + "Song Title: " + songs[i].name + "\n" + "Preview: " + songs[i].preview_url + "\n" + "Album: " + songs[i].album.name +  "\n" + "Album: " + songs[i].album.name, function (err) {
+          if (err) throw err;
+        });
       }
     }
   );
@@ -50,6 +53,9 @@ let myTweets = ()=> {
         console.log(tweets[i].created_at);
         console.log("");
         console.log(tweets[i].text);
+        fs.appendFile('log.txt', "\n" + "\n" + 'MY TWEETS: ' + "\n" + tweets[i].created_at + "\n" + tweets[i].text + "\n-----------", function (err) {
+          if (err) throw err;
+        });
       }
     }
   });
@@ -74,6 +80,9 @@ let movieThis = (movieName) => {
       console.log("\nPlot: " + jsonData.Plot);
       console.log("\nActors: " + jsonData.Actors);
       console.log("\nRotten Tomatoes Rating: " + jsonData.Ratings[1].Value);
+      fs.appendFile('log.txt', "\n" + "\n" + 'MOVIE THIS: ' + "\nTitle: " + jsonData.Title + "\nYear: " + jsonData.Year + "\nRated: " + jsonData.Rated + "\nIMDB Rating: " + jsonData.imdbRating + "\nCountry: " + jsonData.Country + "\nLanguage: " + jsonData.Language + "\nPlot: " + jsonData.Plot + "\nActors: " + jsonData.Actors + "\nRotten Tomatoes Rating: " + jsonData.Ratings[1].Value, function (err) {
+        if (err) throw err;
+      });
     }
   });
 };
@@ -81,6 +90,9 @@ let movieThis = (movieName) => {
 let doWhatItSays = () => {
   fs.readFile("random.txt", "utf8", (error, data) => {
     console.log(data);
+    fs.appendFile('log.txt', "\n" + "\n" + data, function (err) {
+      if (err) throw err;
+    });
 
     let dataArr = data.split(",");
 
