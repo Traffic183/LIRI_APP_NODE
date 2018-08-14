@@ -87,19 +87,21 @@ let movieThis = (movieName) => {
   });
 };
 var doWhatItSays = function() {
+  //node modul reads texts from random.tx 
   fs.readFile("random.txt", "utf8", function(error, data) {
     console.log(data);
+  //splits data into two arrays at the ","
     var dataArr = data.split(",");
-    if (dataArr.length === 2) {
-      randomSelect(dataArr[0], dataArr[1]);
+    if (dataArr.length == 2) {
+      pick(dataArr[0], dataArr[1]);
     }
-    else if (dataArr.length === 1) {
-      randomSelect(dataArr[0]);
+    else if (dataArr.length == 1) {
+      pick(dataArr[0]);
     }
   });
 };
 
-var randomSelect = function(caseData, functionData) {
+var pick = function(caseData, functionData) {
   switch (caseData) {
   case "my-tweets":
     myTweets();
@@ -118,7 +120,7 @@ var randomSelect = function(caseData, functionData) {
   }
 };
 
-var runThis = function(arg1, arg2) {
-  randomSelect(arg1, arg2);
+var runThis = function(argOne, argTwo) {
+  pick(argOne, argTwo);
 };
 runThis(process.argv[2], process.argv[3]);
