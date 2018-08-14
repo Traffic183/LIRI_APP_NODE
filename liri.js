@@ -34,7 +34,7 @@ let getArtistName = (artist) => {
         console.log("Preview: " + songs[i].preview_url);
         console.log("Album: " + songs[i].album.name);
         console.log("*   *   *   *   *   *");
-        fs.appendFile('log.txt', "\n" + "\n" + 'SPOTIFY THIS SONG: ' + i + "\n" + "Artist: " + songs[i].artists.map(getArtistName) + "\n" + "Song Title: " + songs[i].name + "\n" + "Preview: " + songs[i].preview_url + "\n" + "Album: " + songs[i].album.name +  "\n" + "Album: " + songs[i].album.name, function (err) {
+        fs.appendFile('log.txt', "\n" + "\n" + 'SPOTIFY THIS SONG: ' + i + "\n" + "Artist: " + songs[i].artists.map(getArtistName) + "\n" + "Song Title: " + songs[i].name + "\n" + "Preview: " + songs[i].preview_url + "\n" + "Album: " + songs[i].album.name +  "\n" + "Album: " + songs[i].album.name, (err) => {
           if (err) throw err;
         });
       }
@@ -65,9 +65,9 @@ let movieThis = (movieName) => {
     movieName = "Fanny and Alexander";
   }
 
-  let urlHit = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=full&tomatoes=true&apikey=454a6e93";
+  let movieData = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=full&tomatoes=true&apikey=454a6e93";
 
-  request(urlHit, (error, response, body) => {
+  request(movieData, (error, response, body) => {
     if (!error && response.statusCode === 200) {
       let jsonData = JSON.parse(body);
 
@@ -80,32 +80,26 @@ let movieThis = (movieName) => {
       console.log("\nPlot: " + jsonData.Plot);
       console.log("\nActors: " + jsonData.Actors);
       console.log("\nRotten Tomatoes Rating: " + jsonData.Ratings[1].Value);
-      fs.appendFile('log.txt', "\n" + "\n" + 'MOVIE THIS: ' + "\nTitle: " + jsonData.Title + "\nYear: " + jsonData.Year + "\nRated: " + jsonData.Rated + "\nIMDB Rating: " + jsonData.imdbRating + "\nCountry: " + jsonData.Country + "\nLanguage: " + jsonData.Language + "\nPlot: " + jsonData.Plot + "\nActors: " + jsonData.Actors + "\nRotten Tomatoes Rating: " + jsonData.Ratings[1].Value, function (err) {
+      fs.appendFile('log.txt', "\n" + "\n" + 'MOVIE THIS: ' + "\nTitle: " + jsonData.Title + "\nYear: " + jsonData.Year + "\nRated: " + jsonData.Rated + "\nIMDB Rating: " + jsonData.imdbRating + "\nCountry: " + jsonData.Country + "\nLanguage: " + jsonData.Language + "\nPlot: " + jsonData.Plot + "\nActors: " + jsonData.Actors + "\nRotten Tomatoes Rating: " + jsonData.Ratings[1].Value, (err) => {
         if (err) throw err;
       });
     }
   });
 };
-
-let doWhatItSays = () => {
-  fs.readFile("random.txt", "utf8", (error, data) => {
+var doWhatItSays = function() {
+  fs.readFile("random.txt", "utf8", function(error, data) {
     console.log(data);
-    fs.appendFile('log.txt', "\n" + "\n" + data, function (err) {
-      if (err) throw err;
-    });
-
-    let dataArr = data.split(",");
-
+    var dataArr = data.split(",");
     if (dataArr.length === 2) {
-      pick(dataArr[0], dataArr[1]);
+      randomSelect(dataArr[0], dataArr[1]);
     }
     else if (dataArr.length === 1) {
-      pick(dataArr[0]);
+      randomSelect(dataArr[0]);
     }
   });
 };
 
-let randomSelect = (caseData, functionData) => {
+var randomSelect = function(caseData, functionData) {
   switch (caseData) {
   case "my-tweets":
     myTweets();
@@ -124,8 +118,7 @@ let randomSelect = (caseData, functionData) => {
   }
 };
 
-let runThis = (argOne, argTwo) => {
-  randomSelect(argOne, argTwo);
+var runThis = function(arg1, arg2) {
+  randomSelect(arg1, arg2);
 };
-
 runThis(process.argv[2], process.argv[3]);
